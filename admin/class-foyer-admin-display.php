@@ -370,9 +370,22 @@ class Foyer_Admin_Display {
 				//if ( $post_after->post_type == 'foyer_slide' && $post_after->post_status != 'publish' && $post_before->post_status == 'publish' ) {
 					//ccpurge_transaction_logging("Article unpublished: " . $post->ID);
 					//ccpurge_purge_after_save_post_hook($post->ID, $post);
-					Foyer_Displays::reset_all_displays();
-					//update_post_meta($post->ID, 'foyer_reset_display_dummy', 1 );
-
+					//Foyer_Displays::reset_all_displays();
+					delete_option( 'force_refresh_current_site_version' );
+					$display_posts = Foyer_Displays::get_posts();
+					foreach ( $display_posts as $display_post ) {
+						//setup_postdata( $display_post );
+						$time = current_time( 'timestamp' );
+		        // Create the site version
+		        $site_version_hash = wp_hash( $time );
+		        // Get the first eight characters (the chance of having a duplicate hash from the first 8 characters is low)
+		        $site_version = substr( $site_version_hash, 0, 8 );
+		        // Remove the old option
+		        // Add the new option
+		        //add_option('force_refresh_current_site_version', $site_version, null, 'no' );
+						update_post_meta($display_post->ID, 'force_refresh_current_site_version', $site_version );
+						//wp_reset_postdata();
+					}
 			}
 	}
 
