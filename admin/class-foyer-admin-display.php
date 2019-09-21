@@ -363,6 +363,19 @@ class Foyer_Admin_Display {
 	}
 
 	/**
+	 *
+	 */
+	static function post_status_transition( $new_status, $old_status, $post ) {
+			if ( $post->post_type == 'foyer_slide' && $new_status != 'publish' && $old_status == 'publish' ) {
+					//ccpurge_transaction_logging("Article unpublished: " . $post->ID);
+					//ccpurge_purge_after_save_post_hook($post->ID, $post);
+					Foyer_Display::reset_all_displays();
+					//update_post_meta($post->ID, 'foyer_reset_display_dummy', 1 );
+
+			}
+	}
+
+	/**
 	 * Saves all custom fields for a display.
 	 *
 	 * Triggered when a display is submitted from the display admin form.

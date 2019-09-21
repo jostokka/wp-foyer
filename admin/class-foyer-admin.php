@@ -31,7 +31,9 @@ class Foyer_Admin {
 		add_action( 'admin_enqueue_scripts', array( 'Foyer_Admin_Display', 'localize_scripts' ) );
 		add_action( 'add_meta_boxes', array( 'Foyer_Admin_Display', 'add_channel_editor_meta_box' ) );
 		add_action( 'add_meta_boxes', array( 'Foyer_Admin_Display', 'add_channel_scheduler_meta_box' ) );
-		add_action( 'save_post', array( 'Foyer_Admin_Display', 'save_display' ) );
+		add_action( 'save_post', array( 'Foyer_Admin_Display', 'save_display' ));
+		add_action( 'transition_post_status', array( 'Foyer_Admin_Display', 'post_status_transition'), 10, 3);
+
 		add_filter( 'manage_'.Foyer_Display::post_type_name.'_posts_columns', array( 'Foyer_Admin_Display', 'add_channel_columns' ) );
 		add_action( 'manage_'.Foyer_Display::post_type_name.'_posts_custom_column', array( 'Foyer_Admin_Display', 'do_channel_columns' ), 10, 2 );
 		/* Foyer_Admin_Channel */
