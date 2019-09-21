@@ -371,24 +371,43 @@ class Foyer_Admin_Display {
 					//ccpurge_transaction_logging("Article unpublished: " . $post->ID);
 					//ccpurge_purge_after_save_post_hook($post->ID, $post);
 					//Foyer_Displays::reset_all_displays();
-					delete_option( 'force_refresh_current_page_version' );
-					delete_option( 'force_refresh_current_site_version' );
+					//delete_option( 'force_refresh_current_page_version' );
+					//delete_option( 'force_refresh_current_site_version' );
 					$display_posts = Foyer_Displays::get_posts();
 					foreach ( $display_posts as $display_post ) {
 						//setup_postdata( $display_post );
-						$time = current_time( 'timestamp' );
-		        // Create the site version
-		        $site_version_hash = wp_hash( $time );
-		        // Get the first eight characters (the chance of having a duplicate hash from the first 8 characters is low)
-		        $site_version = substr( $site_version_hash, 0, 8 );
-		        // Remove the old option
-		        // Add the new option
-		        //add_option('force_refresh_current_site_version', $site_version, null, 'no' );
-						update_post_meta($display_post->ID, 'force_refresh_current_page_version', $site_version );
-						//wp_reset_postdata();
-					}
+					 $default_channel = get_post_meta($display_post->ID, Foyer_Channel::post_type_name, true );
+					 //update_post_meta($display_post->ID, 'force_refresh_debug1.2', $default_channel );
+
+					 //$default_channel = $display_post->get_default_channel();
+						if (isset($default_channel)) {
+							$slide_posts = get_post_meta( $default_channel, Foyer_Slide::post_type_name, true );
+							if ( ! empty( $slide_posts ) ) {
+								//update_post_meta($display_post->ID, 'force_refresh_debug2.2', $default_channel );
+								foreach ( $slide_posts as $slide_post ) {
+									//update_post_meta($display_post->ID, 'force_refresh_debug3.2-'.$slide_post, $post->ID."-".($slide_post == $post->ID) );
+									if ($slide_post == $post->ID) {
+										$time = current_time( 'timestamp' );
+										// Create the site version
+										$site_version_hash = wp_hash( $time );
+										// Get the first eight characters (the chance of having a duplicate hash from the first 8 characters is low)
+										$site_version = substr( $site_version_hash, 0, 8 );
+										// Remove the old option
+										// Add the new option
+										//add_option('force_refresh_current_site_version', $site_version, null, 'no' );
+										delete_post_meta($display_post->ID, 'force_refresh_current_page_version' );
+										update_post_meta($display_post->ID, 'force_refresh_current_page_version', $site_version );
+										break;
+									}
+								}
+							}
+
+								//wp_reset_postdata();
+						}
+				}
 			}
-	}
+		}
+
 
 	/**
 	 * Saves all custom fields for a display.
