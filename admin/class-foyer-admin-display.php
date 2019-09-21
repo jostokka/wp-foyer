@@ -383,7 +383,7 @@ class Foyer_Admin_Display {
 		        // Remove the old option
 		        // Add the new option
 		        //add_option('force_refresh_current_site_version', $site_version, null, 'no' );
-						update_post_meta($display_post->ID, 'force_refresh_current_site_version', $site_version );
+						update_post_meta($display_post->ID, 'force_refresh_current_page_version', $site_version );
 						//wp_reset_postdata();
 					}
 			}
