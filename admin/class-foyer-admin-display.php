@@ -371,6 +371,7 @@ class Foyer_Admin_Display {
 					//ccpurge_transaction_logging("Article unpublished: " . $post->ID);
 					//ccpurge_purge_after_save_post_hook($post->ID, $post);
 					//Foyer_Displays::reset_all_displays();
+					delete_option( 'force_refresh_current_page_version' );
 					delete_option( 'force_refresh_current_site_version' );
 					$display_posts = Foyer_Displays::get_posts();
 					foreach ( $display_posts as $display_post ) {
