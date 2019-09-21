@@ -10,7 +10,7 @@
  *
  * @link              https://mennoluitjes.nl
  * @since             1.0.0
- * @package           FoyerX
+ * @package           FoyerXX
  *
  * @wordpress-plugin
  * Plugin Name:       Foyer - Digital Signage for WordPress
